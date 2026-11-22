@@ -1,0 +1,89 @@
+
+{
+  "database_name": "Bird Guard AI Crop-Bird Knowledge Database",
+  "database_version": "2.0",
+  "region_restriction": false,
+  "crops": [
+    {
+      "crop_id": "maize",
+      "crop_name": "Maize",
+      "relationships": [
+        {
+          "scientific_name": "Columba livia",
+          "common_name": "Blue Rock Pigeon",
+          "classification": "pest",
+          "crop_impact": "Documented damage to sown seeds and young seedlings",
+          "damage_type": ["seed feeding", "seedling damage"],
+          "affected_growth_stages": ["germination", "seedling"],
+          "evidence_level": "published_field_study",
+          "reported_damage_percent": null,
+          "pest_risk_percentage": null,
+          "source_ids": ["MAIZE_2024"]
+        },
+        {
+          "scientific_name": "Corvus splendens",
+          "common_name": "House Crow",
+          "classification": "pest",
+          "crop_impact": "Documented damage to sown seeds and young seedlings",
+          "damage_type": ["seed feeding", "seedling damage"],
+          "affected_growth_stages": ["germination", "seedling"],
+          "evidence_level": "published_field_study",
+          "reported_damage_percent": null,
+          "pest_risk_percentage": null,
+          "source_ids": ["MAIZE_2024"]
+        },
+        {
+          "scientific_name": "Psittacula krameri",
+          "common_name": "Rose-ringed Parakeet",
+          "classification": "pest",
+          "crop_impact": "Feeds on developing maize cobs and exposed grains",
+          "damage_type": ["cob damage", "grain feeding"],
+          "affected_growth_stages": [
+            "cob_formation",
+            "grain_filling",
+            "maturity"
+          ],
+          "evidence_level": "published_field_study",
+          "reported_damage_percent": 40,
+          "reported_damage_context": "ICAR report, Andhra Pradesh; historical reported crop damage",
+          "pest_risk_percentage": null,
+          "source_ids": ["MAIZE_2024", "ICAR_CROP_REPORT"]
+        }
+      ]
+    },
+    {
+      "crop_id": "rice",
+      "crop_name": "Rice",
+      "relationships": [
+        {
+          "scientific_name": "Pavo cristatus",
+          "common_name": "Indian Peafowl",
+          "classification": "pest",
+          "crop_impact": "Documented rice crop damage",
+          "damage_type": ["crop feeding"],
+          "affected_growth_stages": [],
+          "evidence_level": "published_agricultural_report",
+          "reported_damage_percent": 10,
+          "reported_damage_context": "ICAR annual report, historical reported crop damage",
+          "pest_risk_percentage": null,
+          "source_ids": ["ICAR_CROP_REPORT"]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "MAIZE_2024",
+      "title": "Extent of Damage by Avian Fauna in Maize and the Measures for Management",
+      "year": 2024,
+      "publisher": "Journal of Krishi Vigyan",
+      "url": "https://doi.org/10.5958/2349-4433.2024.00014.X"
+    },
+    {
+      "source_id": "ICAR_CROP_REPORT",
+      "title": "DARE/ICAR Annual Report 2008-2009",
+      "publisher": "Indian Council of Agricultural Research",
+      "url": "https://www.icar.org.in/sites/default/files/inline-files/CROP-MANAGEMENT-11.pdf"
+    }
+  ]
+}

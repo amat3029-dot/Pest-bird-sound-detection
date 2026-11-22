@@ -1,0 +1,922 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bird Guard AI - Acoustic bird detection and crop pest monitoring system">
+    <title>Bird Guard AI | Smart Crop Protection</title>
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""
+    >
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">🕊️</div>
+            <div>
+                <h2>Bird Guard AI</h2>
+                <span>Smart Crop Protection</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="#" class="nav-link active" data-page="dashboard">
+                <span>📊</span> Dashboard
+            </a>
+
+            <a href="#" class="nav-link" data-page="live">
+                <span>🎙️</span> Live Detection
+            </a>
+
+            <a href="#" class="nav-link" data-page="identification">
+                <span>🐦</span> Bird Identification
+            </a>
+
+            <a href="#" class="nav-link" data-page="monitoring">
+                <span>🌾</span> Pest Monitoring
+            </a>
+
+            <a href="#" class="nav-link" data-page="history">
+                <span>📋</span> Detection History
+            </a>
+
+            <a href="#" class="nav-link" data-page="reports">
+                <span>📈</span> Reports & Analytics
+            </a>
+
+            <a href="#" class="nav-link" data-page="heatmap">
+                <span>🗺️</span> Field Activity Heatmap
+            </a>
+            <a href="#" class="nav-link" data-page="iot">
+                <span>📡</span> IoT Sensor Monitoring
+            </a>
+
+            <a href="#" class="nav-link" data-page="settings">
+                <span>⚙️</span> Settings
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>Bird Guard AI</p>
+            <small>Acoustic Bird Monitoring</small>
+            <small>Version 1.0</small>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP HEADER -->
+        <header class="top-header">
+
+            <div>
+                <h1 id="page-title">Dashboard Overview</h1>
+                <p>Intelligent acoustic bird identification and crop monitoring</p>
+            </div>
+
+            <div class="header-status">
+                <span class="status-dot"></span>
+                <span>System Ready</span>
+            </div>
+
+        </header>
+
+
+        <!-- ================================= -->
+        <!-- DASHBOARD PAGE -->
+        <!-- ================================= -->
+
+        <section id="dashboard" class="page active">
+
+            <div class="welcome-section">
+                <h2>Welcome to Bird Guard AI</h2>
+                <p>
+                    Monitor bird sounds, identify bird species,
+                    and understand their documented relationship
+                    with your selected crops.
+                </p>
+
+                <button class="primary-button" data-go="live">
+                    Start Bird Detection
+                </button>
+            </div>
+
+
+            <!-- STATISTICS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon">🐦</div>
+                    <div>
+                        <p>Detected Species</p>
+                        <h2 id="dashboard-species-count">—</h2>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🎙️</div>
+                    <div>
+                        <p>Recording Status</p>
+                        <h2>Ready</h2>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🌾</div>
+                    <div>
+                        <p>Selected Crop</p>
+                        <h2 id="dashboard-selected-crop">Not selected</h2>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🌱</div>
+                    <div>
+                        <p>Growth Stage</p>
+                        <h2 id="dashboard-selected-stage">Not selected</h2>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- CROP SELECTION -->
+
+            <div class="content-card">
+
+                <div class="section-heading">
+                    <h2>Field Configuration</h2>
+                    <p>Select your crop and its current growth stage.</p>
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="crop-select">Select Crop</label>
+
+                        <select id="crop-select">
+                            <option value="">Choose a crop</option>
+                            <option value="rice">Rice</option>
+                            <option value="maize">Maize</option>
+                            <option value="sugarcane">Sugarcane</option>
+                            <option value="groundnut">Groundnut</option>
+                            <option value="wheat">Wheat</option>
+                            <option value="cotton">Cotton</option>
+                            <option value="millet">Millet</option>
+                            <option value="vegetables">Vegetables</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="growth-stage">Growth Stage</label>
+
+                        <select id="growth-stage">
+                            <option value="">Choose growth stage</option>
+                            <option value="seedling">Seedling</option>
+                            <option value="vegetative">Vegetative</option>
+                            <option value="flowering">Flowering</option>
+                            <option value="grain-filling">Grain Filling</option>
+                            <option value="maturity">Maturity / Harvest</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <button id="save-crop" class="primary-button">
+                    Save Field Configuration
+                </button>
+
+                <p id="crop-selection-status" class="status-message"></p>
+
+            </div>
+
+
+            <!-- HOW IT WORKS -->
+
+            <div class="content-card">
+
+                <h2>How Bird Guard AI Works</h2>
+
+                <div class="feature-grid">
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🎙️</span>
+                        <h3>Audio Recording</h3>
+                        <p>
+                            Record bird sounds using your device microphone.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🧠</span>
+                        <h3>Bird Identification</h3>
+                        <p>
+                            BirdNET analyses the recording and identifies
+                            possible bird species.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🌾</span>
+                        <h3>Crop Assessment</h3>
+                        <p>
+                            Compare detected species with documented
+                            crop damage information.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- LIVE DETECTION PAGE -->
+        <!-- ================================= -->
+
+        <section id="live" class="page">
+
+            <div class="page-intro">
+                <h2>Acoustic Bird Detection</h2>
+                <p>
+                    Record sounds through your microphone.
+                    Stop recording to start BirdNET analysis.
+                </p>
+            </div>
+
+
+            <!-- SELECTED FIELD -->
+
+            <div class="content-card">
+
+                <h3>Current Field Configuration</h3>
+
+                <div class="field-information">
+
+                    <div>
+                        <span>Selected Crop</span>
+                        <h3 id="live-selected-crop">Not selected</h3>
+                    </div>
+
+                    <div>
+                        <span>Growth Stage</span>
+                        <h3 id="live-selected-stage">Not selected</h3>
+                    </div>
+
+                </div>
+
+                <button class="secondary-button" data-go="dashboard">
+                    Change Field Configuration
+                </button>
+
+            </div>
+
+
+            <!-- RECORDING PANEL -->
+
+            <div class="content-card recording-card">
+
+                <div class="recording-heading">
+                    <h2>Microphone Recording</h2>
+                    <span class="recording-indicator">● Audio Analysis</span>
+                </div>
+
+                <div class="microphone-icon">
+                    🎙️
+                </div>
+
+                <h3>Bird Sound Recorder</h3>
+
+                <p>
+                    Click Start Listening to record bird sounds.
+                    Click Stop Listening when recording is complete.
+                </p>
+
+
+                <!-- WAVEFORM -->
+
+                <div class="waveform-container">
+                    <canvas id="audio-waveform"></canvas>
+                </div>
+
+
+                <!-- RECORDING BUTTONS -->
+
+                <div class="recording-controls">
+
+                    <button id="start-listening" class="primary-button">
+                        ▶ Start Listening
+                    </button>
+
+                    <button id="stop-listening" class="danger-button" disabled>
+                        ■ Stop Listening
+                    </button>
+
+                </div>
+
+
+                <p id="recording-status" class="status-message">
+                    Ready to record. Select your crop before starting.
+                </p>
+
+
+                <!-- AUDIO PREVIEW -->
+
+                <div class="audio-preview-container">
+
+                    <audio
+                        id="audio-preview"
+                        controls
+                        hidden>
+                    </audio>
+
+                </div>
+
+            </div>
+
+
+            <!-- ANALYSIS PANEL -->
+
+            <div id="analysis-panel" class="content-card analysis-panel" hidden>
+
+                <div class="analysis-header">
+
+                    <div>
+                        <h2 id="analysis-title">
+                            Analysing recording...
+                        </h2>
+
+                        <p id="analysis-description">
+                            Please wait while BirdNET processes your recording.
+                        </p>
+                    </div>
+
+                    <div id="analysis-spinner" class="analysis-spinner"></div>
+
+                </div>
+
+                <div class="analysis-time-container">
+                    <span>Analysis Time</span>
+                    <strong id="analysis-time">00:00</strong>
+                </div>
+
+            </div>
+
+
+            <!-- DETECTION RESULTS -->
+
+            <div class="content-card">
+
+                <div class="section-heading">
+                    <h2>Bird Detection Results</h2>
+                    <p>
+                        Species identification and crop assessment
+                        based on the recorded audio.
+                    </p>
+                </div>
+
+
+                <div class="result-summary">
+
+                    <div class="result-box">
+                        <span>Detected Species</span>
+                        <h3 id="live-species">No detection yet</h3>
+                    </div>
+
+                    <div class="result-box">
+                        <span>Bird Identification Confidence</span>
+                        <h3 id="live-confidence">—</h3>
+                    </div>
+
+                    <div class="result-box">
+                        <span>Crop Pest Assessment</span>
+                        <h3 id="live-pest-status">Not assessed</h3>
+                    </div>
+
+                </div>
+
+
+                <p id="detection-message" class="status-message">
+                    Start recording to see bird identification results.
+                </p>
+
+
+                <div id="live-detection-list" class="detection-list"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- BIRD IDENTIFICATION PAGE -->
+        <!-- ================================= -->
+
+        <section id="identification" class="page">
+
+            <div class="page-intro">
+                <h2>Bird Identification</h2>
+                <p>
+                    View bird identification results generated
+                    by the acoustic detection system.
+                </p>
+            </div>
+
+            <div class="content-card">
+
+                <h3>Identification Information</h3>
+
+                <p>
+                    Bird Guard AI uses BirdNET to analyse recorded
+                    audio and identify possible bird species.
+                </p>
+
+                <p>
+                    Bird identification confidence represents the
+                    model's confidence in its species prediction.
+                    It does not represent crop damage probability.
+                </p>
+
+                <button class="primary-button" data-go="live">
+                    Open Bird Detection
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- PEST MONITORING PAGE -->
+        <!-- ================================= -->
+
+        <section id="monitoring" class="page">
+
+            <div class="page-intro">
+                <h2>Crop Pest Monitoring</h2>
+                <p>
+                    Review documented relationships between bird
+                    species and agricultural crops.
+                </p>
+            </div>
+
+            <div class="content-card">
+
+                <h3>Crop Assessment Information</h3>
+
+                <p>
+                    The system compares identified bird species
+                    against its crop knowledge database.
+                </p>
+
+                <ul>
+                    <li>Documented pest relationships</li>
+                    <li>Known types of crop damage</li>
+                    <li>Affected crop growth stages</li>
+                    <li>Research and evidence sources</li>
+                </ul>
+
+                <p>
+                    Unknown relationships remain classified as Unknown.
+                    A historical damage percentage is not a live
+                    pest-risk percentage.
+                </p>
+
+                <button class="primary-button" data-go="live">
+                    Start Crop Assessment
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- DETECTION HISTORY PAGE -->
+        <!-- ================================= -->
+
+        
+<!-- ================================= -->
+<!-- DETECTION HISTORY PAGE -->
+<!-- ================================= -->
+
+<section id="history" class="page">
+
+    <div class="page-intro">
+        <h2>Detection History</h2>
+        <p>
+            Review previously analysed recordings,
+            identified bird species and crop assessments.
+        </p>
+    </div>
+
+    <div class="content-card">
+
+        <div class="history-toolbar">
+
+            <input
+                type="search"
+                id="history-search"
+                placeholder="Search bird species or scientific name..."
+            >
+
+            <select id="history-crop-filter">
+                <option value="all">All Crops</option>
+                <option value="rice">Rice</option>
+                <option value="maize">Maize</option>
+                <option value="sugarcane">Sugarcane</option>
+                <option value="groundnut">Groundnut</option>
+                <option value="wheat">Wheat</option>
+                <option value="cotton">Cotton</option>
+                <option value="millet">Millet</option>
+                <option value="vegetables">Vegetables</option>
+                <option value="other">Other</option>
+            </select>
+
+            <button
+                type="button"
+                id="refresh-history"
+                class="secondary-button"
+            >
+                Refresh History
+            </button>
+
+        </div>
+
+        <p
+            id="history-status"
+            class="status-message"
+            aria-live="polite"
+        >
+            Loading detection history...
+        </p>
+
+        <div
+            id="history-list"
+            class="history-list"
+        ></div>
+
+    </div>
+
+</section>
+
+
+
+        <!-- ================================= -->
+        <!-- REPORTS PAGE -->
+        <!-- ================================= -->
+
+        
+<section id="reports" class="page">
+
+    <div class="page-intro">
+        <h2>Reports & Analytics</h2>
+        <p>Insights from your saved bird detection recordings.</p>
+    </div>
+
+    <div class="reports-toolbar">
+        <span id="reports-status">Loading analytics...</span>
+        <button class="primary-button" id="refresh-reports">
+            Refresh Reports
+        </button>
+    </div>
+
+    <div class="analytics-grid">
+
+        <div class="analytics-card">
+            <span>Total Recordings</span>
+            <h2 id="report-total-recordings">0</h2>
+        </div>
+
+        <div class="analytics-card">
+            <span>Detected Recordings</span>
+            <h2 id="report-detected-recordings">0</h2>
+        </div>
+
+        <div class="analytics-card">
+            <span>Unique Species</span>
+            <h2 id="report-unique-species">0</h2>
+        </div>
+
+        <div class="analytics-card">
+            <span>Detection Segments</span>
+            <h2 id="report-total-segments">0</h2>
+        </div>
+
+    </div>
+
+    <div class="reports-grid">
+
+        <div class="content-card">
+            <h3>Crop-wise Recordings</h3>
+            <div id="report-crop-chart"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>Detection Summary</h3>
+            <div id="report-detection-chart"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>Most Frequently Detected Species</h3>
+            <div id="report-species-chart"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>Recording Activity</h3>
+            <div id="report-activity-chart"></div>
+        </div>
+
+    </div>
+
+    <div class="content-card">
+        <h3>Recent Recording Reports</h3>
+
+        <div class="table-responsive">
+            <table class="reports-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Crop</th>
+                        <th>Growth Stage</th>
+                        <th>Bird Status</th>
+                        <th>Segments</th>
+                    </tr>
+                </thead>
+
+                <tbody id="report-records-table">
+                    <tr>
+                        <td colspan="5">Loading reports...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+
+
+        <!-- FIELD ACTIVITY HEATMAP PAGE -->
+
+        <section id="heatmap" class="page">
+
+            <div class="page-intro">
+                <h2>Field Activity Heatmap</h2>
+                <p>
+                    Explore recorded locations and bird detection segments.
+                    Intensity represents segments, not bird counts or crop damage.
+                </p>
+            </div>
+
+            <div class="heatmap-stats">
+                <div class="heatmap-stat">
+                    <span>Mapped Recordings</span>
+                    <strong id="heatmap-mapped-recordings">0</strong>
+                </div>
+                <div class="heatmap-stat">
+                    <span>Detected Recordings</span>
+                    <strong id="heatmap-detected-recordings">0</strong>
+                </div>
+                <div class="heatmap-stat">
+                    <span>Detection Segments</span>
+                    <strong id="heatmap-detection-segments">0</strong>
+                </div>
+                <div class="heatmap-stat">
+                    <span>Unmapped Recordings</span>
+                    <strong id="heatmap-unmapped-recordings">0</strong>
+                </div>
+            </div>
+
+            <div class="heatmap-toolbar">
+                <label for="heatmap-crop-filter">Crop</label>
+                <select id="heatmap-crop-filter">
+                    <option value="all">All Crops</option>
+                    <option value="rice">Rice</option>
+                    <option value="maize">Maize</option>
+                    <option value="sugarcane">Sugarcane</option>
+                    <option value="groundnut">Groundnut</option>
+                    <option value="wheat">Wheat</option>
+                    <option value="cotton">Cotton</option>
+                    <option value="millet">Millet</option>
+                    <option value="vegetables">Vegetables</option>
+                    <option value="other">Other</option>
+                </select>
+                <button type="button" id="refresh-heatmap" class="primary-button">
+                    Refresh Map
+                </button>
+                <p id="heatmap-status" class="status-message" aria-live="polite">
+                    Open this page to load field activity.
+                </p>
+            </div>
+
+            <div id="field-activity-map" class="field-activity-map" aria-label="Map of recorded field activity"></div>
+
+        </section>
+
+
+<!-- ================================= -->
+<!-- IOT SENSOR MONITORING PAGE -->
+<!-- ================================= -->
+
+<section id="iot" class="page">
+
+    <div class="page-intro">
+        <h2>IoT Sensor Monitoring</h2>
+        <p>
+            Monitor sound activity collected by the Arduino
+            sound sensor alongside BirdNET bird identification.
+        </p>
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-icon">📡</div>
+            <div>
+                <p>Backend Connection</p>
+                <h2 id="iot-backend-status">Checking...</h2>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🔊</div>
+            <div>
+                <p>Sound Level</p>
+                <h2 id="iot-sound-level">--</h2>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div>
+                <p>Activity Status</p>
+                <h2 id="iot-activity-status">Waiting</h2>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🔌</div>
+            <div>
+                <p>Sensor Status</p>
+                <h2 id="iot-sensor-status">No data</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="content-card">
+        <div class="section-heading">
+            <h2>Live Sound Activity</h2>
+            <p>Recent sound-level readings from the sensor.</p>
+        </div>
+
+        <canvas id="iot-sound-chart"
+                height="110"
+                aria-label="Recent sound activity chart">
+        </canvas>
+
+        <p id="iot-last-reading" class="status-message">
+            Waiting for sensor readings...
+        </p>
+
+        <button id="iot-refresh-button" class="primary-button">
+            Refresh Sensor Data
+        </button>
+    </div>
+
+    <div class="content-card">
+        <h2>Recent Sensor Readings</h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Sound Level</th>
+                        <th>Threshold</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="iot-reading-history">
+                    <tr>
+                        <td colspan="4">No readings received yet.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+        <!-- ================================= -->
+        <!-- SETTINGS PAGE -->
+        <!-- ================================= -->
+
+        <section id="settings" class="page">
+
+            <div class="page-intro">
+                <h2>Application Settings</h2>
+                <p>
+                    Configure bird detection display preferences.
+                </p>
+            </div>
+
+
+            <div class="content-card">
+
+                <h3>Bird Detection Settings</h3>
+
+                <div class="form-group">
+
+                    <label for="confidence-threshold">
+                        Minimum Bird Identification Confidence
+                    </label>
+
+                    <select id="confidence-threshold">
+
+                        <option value="10">10%</option>
+                        <option value="30">30%</option>
+                        <option value="50">50%</option>
+                        <option value="70">70%</option>
+
+                    </select>
+
+                    <p>
+                        This setting filters which predictions
+                        are displayed in the frontend.
+                        It does not change BirdNET's backend
+                        inference threshold.
+                    </p>
+
+                    <p
+                        id="confidence-threshold-status"
+                        class="status-message">
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="content-card">
+
+                <h3>System Information</h3>
+
+                <p><strong>Application:</strong> Bird Guard AI</p>
+                <p><strong>Version:</strong> 1.0</p>
+                <p><strong>Bird Identification:</strong> BirdNET</p>
+                <p><strong>Backend:</strong> FastAPI</p>
+                <p><strong>Audio Processing:</strong> PyAV</p>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="main-footer">
+            <p>
+                Bird Guard AI © 2026 |
+                Acoustic Bird Identification and Crop Monitoring
+            </p>
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- JAVASCRIPT -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

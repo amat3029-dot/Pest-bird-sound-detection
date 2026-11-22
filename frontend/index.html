@@ -1,0 +1,1219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bird Guard AI agricultural intelligence platform for bird identification, crop monitoring and field insights">
+    <meta name="bird-guard-api-base-url" content="">
+    <title>Bird Guard AI | Agricultural Intelligence</title>
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""
+    >
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <header class="top-nav">
+        <div class="top-nav-inner">
+            <a class="brand" href="#" data-page="dashboard" aria-label="Bird Guard AI overview">
+                <span class="brand-icon" aria-hidden="true">🕊️</span>
+                <span class="brand-copy">
+                    <strong>Bird Guard AI</strong>
+                    <small>AI Platform</small>
+                </span>
+            </a>
+
+            <button
+                class="nav-toggle"
+                id="nav-toggle"
+                type="button"
+                aria-label="Open navigation"
+                aria-expanded="false"
+                aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="primary-navigation" id="primary-navigation" aria-label="Main navigation">
+                <a href="#" class="nav-link active" data-page="dashboard" aria-current="page"><span aria-hidden="true">◈</span> Overview</a>
+                <a href="#" class="nav-link" data-page="live"><span aria-hidden="true">◉</span> Detection</a>
+                <a href="#" class="nav-link" data-page="monitoring"><span aria-hidden="true">⌁</span> Crop Monitor</a>
+                <a href="#" class="nav-link" data-page="iot"><span aria-hidden="true">⌘</span> IoT Monitoring</a>
+                <a href="#" class="nav-link" data-page="heatmap"><span aria-hidden="true">⌖</span> Field Map</a>
+                <a href="#" class="nav-link" data-page="history"><span aria-hidden="true">≡</span> Detection History</a>
+                <a href="#" class="nav-link" data-page="reports"><span aria-hidden="true">▥</span> Analytics</a>
+                <a href="#" class="nav-link" data-page="settings"><span aria-hidden="true">⚙</span> Settings</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+
+        <header class="top-header">
+
+            <div>
+                <span class="eyebrow">BIRD GUARD AI / FIELD INTELLIGENCE</span>
+                <h1 id="page-title">Agricultural Intelligence Dashboard</h1>
+                <p>Bird identification · Crop monitoring · IoT intelligence</p>
+            </div>
+
+            <div class="header-status">
+                <span class="status-dot"></span>
+                <span id="system-status-label">Checking backend…</span>
+            </div>
+
+        </header>
+
+
+        <!-- ================================= -->
+        <!-- DASHBOARD PAGE -->
+        <!-- ================================= -->
+
+        <section id="dashboard" class="page active">
+
+            <div class="welcome-section">
+                <div class="hero-copy">
+                    <span class="hero-kicker">AGRICULTURAL INTELLIGENCE DASHBOARD</span>
+                    <h2>Understand what’s happening in your fields.</h2>
+                    <p>
+                        Bring bird identification, crop monitoring and field
+                        intelligence together in one place.
+                    </p>
+                </div>
+                <div class="hero-actions">
+                    <button class="primary-button" data-go="live">
+                        Start bird detection <span aria-hidden="true">→</span>
+                    </button>
+                    <span class="hero-note">AI-assisted insights for smarter crop protection</span>
+                </div>
+            </div>
+
+
+            <div class="stats-grid dashboard-stats">
+
+                <div class="stat-card">
+                    <div class="stat-icon">◉</div>
+                    <div>
+                        <p>Monitoring status</p>
+                        <h2 id="dashboard-monitoring-status">READY</h2>
+                        <span class="stat-caption" id="dashboard-monitoring-caption">Microphone monitoring is stopped</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">▤</div>
+                    <div>
+                        <p>Saved recordings</p>
+                        <h2 id="dashboard-segment-count">—</h2>
+                        <span class="stat-caption" id="dashboard-segment-caption">Loading saved recordings…</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">◎</div>
+                    <div>
+                        <p>Bird detections</p>
+                        <h2 id="dashboard-detection-count">—</h2>
+                        <span class="stat-caption" id="dashboard-detection-caption">Saved detection segments</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">✳</div>
+                    <div>
+                        <p>Unique bird species</p>
+                        <h2 id="dashboard-species-count">—</h2>
+                        <span class="stat-caption" id="dashboard-species-caption">Loading saved detections…</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">⚠</div>
+                    <div>
+                        <p>Confirmed crop pests</p>
+                        <h2 id="dashboard-pest-count">—</h2>
+                        <span class="stat-caption" id="dashboard-pest-caption">Verified evidence only</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">⌘</div>
+                    <div>
+                        <p>Arduino sound sensor</p>
+                        <h2 id="dashboard-iot-status">—</h2>
+                        <span class="stat-caption" id="dashboard-iot-caption">Checking sensor connection…</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🌾</div>
+                    <div>
+                        <p>Crop evidence</p>
+                        <h2 id="dashboard-crop-evidence">—</h2>
+                        <span class="stat-caption" id="dashboard-crop-evidence-caption">Checking selected crop evidence…</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="dashboard-panels">
+                <section class="content-card" aria-labelledby="overview-activity-title">
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">FIELD ACTIVITY</span>
+                            <h2 id="overview-activity-title">Recent detections</h2>
+                        </div>
+                        <button class="module-link" type="button" data-go="history">View history →</button>
+                    </div>
+                    <div id="dashboard-recent-detections" class="overview-event-list" aria-live="polite">
+                        <p class="status-message">Loading saved detections…</p>
+                    </div>
+                </section>
+                <section class="content-card" aria-labelledby="overview-alerts-title">
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">ALERT CENTRE</span>
+                            <h2 id="overview-alerts-title">Recent alerts</h2>
+                        </div>
+                        <button class="module-link" type="button" data-go="settings">Alert settings →</button>
+                    </div>
+                    <div id="dashboard-recent-alerts" class="overview-event-list">
+                        <p class="status-message">No alerts recorded in this browser.</p>
+                    </div>
+                </section>
+            </div>
+
+            <section class="modules-section" aria-labelledby="modules-title">
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">YOUR WORKSPACE</span>
+                        <h2 id="modules-title">System modules</h2>
+                    </div>
+                    <p>Explore the tools connected to your agricultural intelligence platform.</p>
+                </div>
+
+                <div class="module-grid">
+                    <article class="module-card">
+                        <span class="module-icon">◎</span>
+                        <div class="module-status"><span class="status-dot"></span> Existing</div>
+                        <h3>BirdNET identification</h3>
+                        <p>Record field audio and review identified bird species with crop context.</p>
+                        <button class="module-link" type="button" data-go="live">Open detection <span aria-hidden="true">→</span></button>
+                    </article>
+                    <article class="module-card">
+                        <span class="module-icon">⌘</span>
+                        <div class="module-status status-ready"><span class="status-dot"></span> API prepared</div>
+                        <h3>IoT sensor monitoring</h3>
+                        <p>Connect to the sensor monitoring endpoint and review the latest readings.</p>
+                        <button class="module-link" type="button" data-go="iot">Open IoT monitoring <span aria-hidden="true">→</span></button>
+                    </article>
+                    <article class="module-card">
+                        <span class="module-icon">⌖</span>
+                        <div class="module-status"><span class="status-dot"></span> Existing</div>
+                        <h3>GPS field heatmap</h3>
+                        <p>Explore geolocated recordings and sound activity across your fields.</p>
+                        <button class="module-link" type="button" data-go="heatmap">Open field map <span aria-hidden="true">→</span></button>
+                    </article>
+                </div>
+                <p class="dashboard-disclaimer">Metrics reflect saved recordings and the latest available IoT sensor reading.</p>
+            </section>
+
+
+            <!-- CROP SELECTION -->
+
+            <div class="content-card">
+
+                <div class="section-heading">
+                    <h2>Field Configuration</h2>
+                    <p>Select your crop and its current growth stage.</p>
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="crop-select">Select Crop</label>
+
+                        <select id="crop-select">
+                            <option value="">Choose a crop</option>
+                            <option value="rice">Rice</option>
+                            <option value="maize">Maize</option>
+                            <option value="sugarcane">Sugarcane</option>
+                            <option value="groundnut">Groundnut</option>
+                            <option value="wheat">Wheat</option>
+                            <option value="cotton">Cotton</option>
+                            <option value="millet">Millet</option>
+                            <option value="vegetables">Vegetables</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="growth-stage">Growth Stage</label>
+
+                        <select id="growth-stage">
+                            <option value="">Choose growth stage</option>
+                            <option value="seedling">Seedling</option>
+                            <option value="vegetative">Vegetative</option>
+                            <option value="flowering">Flowering</option>
+                            <option value="grain-filling">Grain Filling</option>
+                            <option value="maturity">Maturity / Harvest</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <button id="save-crop" class="primary-button">
+                    Save Field Configuration
+                </button>
+
+                <p id="crop-selection-status" class="status-message"></p>
+
+            </div>
+
+
+            <!-- HOW IT WORKS -->
+
+            <div class="content-card">
+
+                <h2>How Bird Guard AI Works</h2>
+
+                <div class="feature-grid">
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🎙️</span>
+                        <h3>Audio Recording</h3>
+                        <p>
+                            Record bird sounds using your device microphone.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🧠</span>
+                        <h3>Bird Identification</h3>
+                        <p>
+                            BirdNET analyses the recording and identifies
+                            possible bird species.
+                        </p>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">🌾</span>
+                        <h3>Crop Assessment</h3>
+                        <p>
+                            Compare detected species with documented
+                            crop damage information.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- LIVE DETECTION PAGE -->
+        <!-- ================================= -->
+
+        <section id="live" class="page">
+
+            <div class="page-intro">
+                <h2>Live Field Monitoring</h2>
+                <p>
+                    Start monitoring once. Audio is analysed in short,
+                    segments until you stop; detections are saved to history.
+                </p>
+            </div>
+
+
+            <!-- SELECTED FIELD -->
+
+            <div class="content-card field-configuration-card">
+
+                <h3>Current Field Configuration</h3>
+
+                <div class="field-information">
+
+                    <div>
+                        <span>Selected Crop</span>
+                        <h3 id="live-selected-crop">Not selected</h3>
+                    </div>
+
+                    <div>
+                        <span>Growth Stage</span>
+                        <h3 id="live-selected-stage">Not selected</h3>
+                    </div>
+
+                </div>
+
+                <button class="secondary-button" data-go="dashboard">
+                    Change Field Configuration
+                </button>
+
+            </div>
+
+
+            <!-- RECORDING PANEL -->
+
+            <div class="content-card recording-card">
+
+                <div class="recording-heading">
+                    <h2>Live monitoring</h2>
+                    <span class="recording-indicator" id="live-monitoring-state">● READY</span>
+                </div>
+
+                <div class="microphone-icon" aria-hidden="true">
+                    🎙️
+                </div>
+
+                <h3 id="live-monitoring-title">Ready to monitor</h3>
+
+                <p>
+                    Your microphone captures 15-second audio segments.
+                    BirdNET analyses every segment and saves segments with detected birds to history.
+                </p>
+
+                <div class="audio-input-controls">
+                    <label for="live-audio-input">Audio input device</label>
+                    <select id="live-audio-input">
+                        <option value="">System default microphone</option>
+                    </select>
+                    <button id="refresh-audio-inputs" class="secondary-button" type="button">
+                        Refresh devices
+                    </button>
+                    <span>Microphone status <strong id="live-microphone-status">OFF</strong></span>
+                    <span>Selected input <strong id="live-audio-input-name">System default microphone</strong></span>
+                    <label for="live-alert-output">Detection alert output</label>
+                    <select id="live-alert-output">
+                        <option value="arduino">Arduino physical buzzer</option>
+                        <option value="laptop">Laptop sound</option>
+                    </select>
+                    <span id="live-alert-output-description" class="audio-input-help">
+                        Qualifying bird detections activate the Arduino buzzer.
+                    </span>
+                </div>
+
+                <!-- WAVEFORM -->
+
+                <div class="waveform-container">
+                    <canvas id="audio-waveform"></canvas>
+                </div>
+
+                <div class="microphone-level" role="meter" aria-label="Computer microphone input level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <span>Microphone signal <small>(computer audio, not Arduino)</small></span>
+                    <strong id="live-mic-level">0%</strong>
+                </div>
+
+
+                <!-- RECORDING BUTTONS -->
+
+                <div class="recording-controls">
+
+                    <button id="start-listening" class="primary-button">
+                        ▶ Start Live Monitoring
+                    </button>
+
+                    <button id="pause-listening" class="secondary-button" disabled>
+                        Ⅱ Pause
+                    </button>
+                    <button id="resume-listening" class="secondary-button" disabled>
+                        ▶ Resume
+                    </button>
+                    <button id="stop-listening" class="danger-button" disabled>
+                        ■ Stop Monitoring
+                    </button>
+
+                </div>
+
+                <div class="live-session-meta">
+                    <span>Session started <strong id="live-start-time">—</strong></span>
+                    <span>Monitoring duration <strong id="live-duration">00:00:00</strong></span>
+                    <span>Segments analysed <strong id="live-segments-analysed">0</strong></span>
+                    <span>Current segment <strong id="live-segment-duration">00:00 / 00:15</strong></span>
+                </div>
+
+                <p id="recording-status" class="status-message" role="status" aria-live="polite">
+                    Ready to record. Select your crop before starting.
+                </p>
+
+                <p id="live-detection-time" class="live-detection-time">
+                    No segment analysed yet.
+                </p>
+
+                <!-- AUDIO PREVIEW -->
+
+                <div class="audio-preview-container">
+
+                    <audio
+                        id="audio-preview"
+                        controls
+                        hidden>
+                    </audio>
+
+                </div>
+
+            </div>
+
+
+            <!-- ANALYSIS PANEL -->
+
+            <div id="analysis-panel" class="content-card analysis-panel" hidden>
+
+                <div class="analysis-header">
+
+                    <div>
+                        <h2 id="analysis-title">
+                            Analysing recording...
+                        </h2>
+
+                        <p id="analysis-description">
+                            Please wait while BirdNET processes your recording.
+                        </p>
+                    </div>
+
+                    <div id="analysis-spinner" class="analysis-spinner"></div>
+
+                </div>
+
+                <div class="analysis-time-container">
+                    <span>Analysis Time</span>
+                    <strong id="analysis-time">00:00</strong>
+                </div>
+
+            </div>
+
+
+            <!-- DETECTION RESULTS -->
+
+            <div class="content-card">
+
+                <div class="section-heading">
+                    <h2>Bird Detection Results</h2>
+                    <p>
+                        Latest identification and crop assessment from the
+                        most recently analysed audio segment.
+                    </p>
+                </div>
+
+
+                <div class="result-summary live-result-summary">
+
+                    <div class="result-box">
+                        <span>Latest identification</span>
+                        <h3 id="live-species">Waiting for first segment</h3>
+                    </div>
+
+                    <div class="result-box">
+                        <span>Confidence</span>
+                        <h3 id="live-confidence">—</h3>
+                    </div>
+
+                    <div class="result-box">
+                        <span>Crop relationship evidence</span>
+                        <h3 id="live-pest-status">Not assessed</h3>
+                    </div>
+
+                    <div class="result-box">
+                        <span>Pest risk assessment</span>
+                        <h3 id="live-pest-risk">Insufficient data</h3>
+                    </div>
+
+                    <div class="result-box">
+                        <span>Detection timestamp</span>
+                        <h3 id="live-result-timestamp">—</h3>
+                    </div>
+
+                    <div class="result-box">
+                        <span>Arduino buzzer</span>
+                        <h3 id="live-buzzer-status">OFFLINE</h3>
+                    </div>
+
+                </div>
+                <p id="live-buzzer-detail" class="status-message">
+                    Buzzer status will appear when the Arduino bridge reports in.
+                </p>
+                <p id="live-buzzer-alert-result" class="status-message">
+                    No qualifying bird identification has requested a buzzer alert yet.
+                </p>
+
+
+                <p id="detection-message" class="status-message">
+                    Start recording to see bird identification results.
+                </p>
+
+                <p class="risk-assessment-note">
+                    Pest risk is separate from BirdNET confidence and crop
+                    damage evidence. It remains uncalculated until validated
+                    field observations and a tested risk model are available.
+                </p>
+
+                <div id="live-detection-list" class="detection-list"></div>
+
+                <div class="live-events-section">
+                    <h3>Live detection events</h3>
+                    <p>Detected bird segments are saved automatically to Detection History. Empty segments are analysed but not stored.</p>
+                    <div id="live-detection-events" class="live-detection-events" aria-live="polite">
+                        <p class="live-events-empty">No monitoring events yet.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- PEST MONITORING PAGE -->
+        <!-- ================================= -->
+
+        <section id="monitoring" class="page">
+
+            <div class="page-intro">
+                <h2>Crop Pest Monitoring</h2>
+                <p>
+                    Review documented relationships between bird
+                    species and agricultural crops.
+                </p>
+            </div>
+
+            <div class="content-card">
+
+                <div class="crop-monitor-toolbar">
+                    <div class="form-group">
+                        <label for="crop-monitor-crop">Crop</label>
+                        <select id="crop-monitor-crop">
+                            <option value="rice">Rice</option>
+                            <option value="maize">Maize</option>
+                            <option value="vegetables">Vegetables</option>
+                            <option value="sugarcane">Sugarcane</option>
+                            <option value="groundnut">Groundnut</option>
+                            <option value="wheat">Wheat</option>
+                            <option value="cotton">Cotton</option>
+                            <option value="millet">Millet</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="crop-monitor-field">Field name</label>
+                        <input id="crop-monitor-field" type="text" maxlength="80" placeholder="Optional field name">
+                    </div>
+                    <div class="form-group">
+                        <label for="crop-monitor-stage">Growth stage</label>
+                        <select id="crop-monitor-stage">
+                            <option value="seedling">Seedling</option>
+                            <option value="vegetative">Vegetative</option>
+                            <option value="flowering">Flowering</option>
+                            <option value="grain_filling">Grain filling</option>
+                            <option value="maturity">Maturity / harvest</option>
+                        </select>
+                    </div>
+                    <button id="refresh-crop-evidence" class="secondary-button" type="button">Refresh evidence</button>
+                </div>
+                <p id="crop-evidence-status" class="status-message" role="status" aria-live="polite">Loading crop evidence…</p>
+                <details class="manual-evidence-entry">
+                    <summary>Add manual crop evidence</summary>
+                    <p>
+                        Entry crop: <strong id="manual-evidence-current-crop">Sugarcane</strong>.
+                        Manual entries are saved as pending review and do not
+                        count as verified pest evidence.
+                    </p>
+                    <form id="manual-crop-evidence-form">
+                        <div class="manual-evidence-grid">
+                            <div class="form-group">
+                                <label for="manual-evidence-scientific-name">Bird scientific name</label>
+                                <input id="manual-evidence-scientific-name" name="scientific_name" type="text" maxlength="150" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="manual-evidence-common-name">Common name (optional)</label>
+                                <input id="manual-evidence-common-name" name="common_name" type="text" maxlength="150">
+                            </div>
+                            <div class="form-group">
+                                <label for="manual-evidence-relationship">Crop relationship</label>
+                                <select id="manual-evidence-relationship" name="relationship" required>
+                                    <option value="">Select relationship</option>
+                                    <option value="pest">Pest</option>
+                                    <option value="non_pest">Non-pest</option>
+                                    <option value="beneficial">Beneficial</option>
+                                    <option value="neutral">Neutral</option>
+                                    <option value="unknown">Unknown</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="manual-evidence-damage">Damage type(s) (optional)</label>
+                                <input id="manual-evidence-damage" name="damage_type" type="text" maxlength="500" placeholder="e.g. feeding on shoots">
+                            </div>
+                            <div class="form-group">
+                                <label for="manual-evidence-stages">Affected growth stage(s) (optional)</label>
+                                <input id="manual-evidence-stages" name="growth_stages" type="text" maxlength="200" placeholder="e.g. seedling, flowering">
+                            </div>
+                            <div class="form-group">
+                                <label for="manual-evidence-source-title">Source or observation title</label>
+                                <input id="manual-evidence-source-title" name="source_title" type="text" maxlength="250" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="manual-evidence-source-url">Source URL (optional)</label>
+                                <input id="manual-evidence-source-url" name="source_url" type="url" maxlength="2048" placeholder="https://...">
+                            </div>
+                            <div class="form-group">
+                                <label for="manual-evidence-publisher">Publisher (optional)</label>
+                                <input id="manual-evidence-publisher" name="source_publisher" type="text" maxlength="250">
+                            </div>
+                            <div class="form-group">
+                                <label for="manual-evidence-year">Source year (optional)</label>
+                                <input id="manual-evidence-year" name="source_year" type="number" min="1000" max="2100">
+                            </div>
+                            <div class="form-group manual-evidence-description">
+                                <label for="manual-evidence-description">Evidence or impact notes (optional)</label>
+                                <textarea id="manual-evidence-description" name="impact_description" rows="3" maxlength="2000"></textarea>
+                            </div>
+                        </div>
+                        <button class="secondary-button" type="submit">Save as pending review</button>
+                        <p id="manual-evidence-form-status" class="status-message" role="status" aria-live="polite"></p>
+                    </form>
+                </details>
+                <p class="risk-assessment-note">Only verified crop-specific evidence can support a confirmed pest classification. Unknown or pending evidence is not a pest alert. BirdNET confidence is not a crop damage or risk percentage.</p>
+                <h3>Detected species in saved recordings</h3>
+                <p id="crop-monitor-detections-status" class="status-message">Loading saved detections…</p>
+                <div class="table-responsive">
+                    <table class="evidence-table">
+                        <thead>
+                            <tr>
+                                <th>Bird species</th>
+                                <th>Confidence</th>
+                                <th>Crop relationship</th>
+                                <th>Evidence status</th>
+                                <th>Damage type</th>
+                                <th>Affected stage</th>
+                                <th>Evidence source</th>
+                                <th>Pest classification</th>
+                                <th>Risk assessment</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crop-monitor-detections">
+                            <tr><td colspan="9">Loading saved detections…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h3>Crop evidence reference database</h3>
+                <div class="table-responsive">
+                    <table class="evidence-table">
+                        <thead>
+                            <tr>
+                                <th>Bird species</th>
+                                <th>Relationship</th>
+                                <th>Evidence</th>
+                                <th>Damage type</th>
+                                <th>Affected stage</th>
+                                <th>Source</th>
+                                <th>Classification</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crop-evidence-list">
+                            <tr><td colspan="7">Loading crop evidence…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- DETECTION HISTORY PAGE -->
+        <!-- ================================= -->
+
+        
+<!-- ================================= -->
+<!-- DETECTION HISTORY PAGE -->
+<!-- ================================= -->
+
+<section id="history" class="page">
+
+    <div class="page-intro">
+        <h2>Detection History</h2>
+        <p>
+            Review previously analysed recordings,
+            identified bird species and crop assessments.
+        </p>
+    </div>
+
+    <div class="content-card">
+
+        <div class="history-toolbar">
+
+            <input
+                type="search"
+                id="history-search"
+                placeholder="Search bird species or scientific name..."
+            >
+
+            <select id="history-crop-filter">
+                <option value="all">All Crops</option>
+                <option value="rice">Rice</option>
+                <option value="maize">Maize</option>
+                <option value="sugarcane">Sugarcane</option>
+                <option value="groundnut">Groundnut</option>
+                <option value="wheat">Wheat</option>
+                <option value="cotton">Cotton</option>
+                <option value="millet">Millet</option>
+                <option value="vegetables">Vegetables</option>
+                <option value="other">Other</option>
+            </select>
+
+            <button
+                type="button"
+                id="refresh-history"
+                class="secondary-button"
+            >
+                Refresh History
+            </button>
+
+        </div>
+
+        <p
+            id="history-status"
+            class="status-message"
+            aria-live="polite"
+        >
+            Loading detection history...
+        </p>
+
+        <div class="table-responsive">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Date and time</th>
+                        <th>Bird name</th>
+                        <th>Scientific name</th>
+                        <th>Confidence</th>
+                        <th>Crop</th>
+                        <th>Evidence status</th>
+                        <th>Pest classification</th>
+                        <th>Audio / actions</th>
+                    </tr>
+                </thead>
+                <tbody id="history-table-body">
+                    <tr><td colspan="8">Loading detection history…</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="history-list" class="history-list" hidden></div>
+
+    </div>
+
+</section>
+
+
+
+        <!-- ================================= -->
+        <!-- REPORTS PAGE -->
+        <!-- ================================= -->
+
+        
+<section id="reports" class="page">
+
+    <div class="page-intro">
+        <h2>Reports & Analytics</h2>
+        <p>Insights from your saved bird detection recordings.</p>
+    </div>
+
+    <div class="reports-toolbar">
+        <span id="reports-status">Loading analytics...</span>
+        <button class="primary-button" id="refresh-reports">
+            Refresh Reports
+        </button>
+    </div>
+
+    <div class="analytics-grid">
+
+        <div class="analytics-card">
+            <span>Total Recordings</span>
+            <h2 id="report-total-recordings">0</h2>
+        </div>
+
+        <div class="analytics-card">
+            <span>Detected Recordings</span>
+            <h2 id="report-detected-recordings">0</h2>
+        </div>
+
+        <div class="analytics-card">
+            <span>Unique Species</span>
+            <h2 id="report-unique-species">0</h2>
+        </div>
+
+        <div class="analytics-card">
+            <span>Detection Segments</span>
+            <h2 id="report-total-segments">0</h2>
+        </div>
+
+    </div>
+
+    <div class="reports-grid">
+
+        <div class="content-card">
+            <h3>Crop-wise Recordings</h3>
+            <div id="report-crop-chart"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>Detection Status (Saved Recordings)</h3>
+            <div id="report-detection-chart"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>Most Frequently Detected Species</h3>
+            <div id="report-species-chart"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>Detection Count Over Time</h3>
+            <div id="report-activity-chart"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>BirdNET Confidence Distribution</h3>
+            <div id="report-confidence-chart"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>Confirmed Pest Detections by Crop</h3>
+            <div id="report-pest-chart"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>Detection Activity by Time of Day</h3>
+            <div id="report-time-chart"></div>
+        </div>
+
+    </div>
+
+    <div class="content-card">
+        <h3>Recent Recording Reports</h3>
+
+        <div class="table-responsive">
+            <table class="reports-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Crop</th>
+                        <th>Growth Stage</th>
+                        <th>Bird Status</th>
+                        <th>Segments</th>
+                    </tr>
+                </thead>
+
+                <tbody id="report-records-table">
+                    <tr>
+                        <td colspan="5">Loading reports...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+
+
+        <!-- FIELD ACTIVITY HEATMAP PAGE -->
+
+        <section id="heatmap" class="page">
+
+            <div class="page-intro">
+                <h2>Field Activity Heatmap</h2>
+                <p>
+                    Explore recorded locations and bird detection segments.
+                    Intensity represents segments, not bird counts or crop damage.
+                </p>
+            </div>
+
+            <div class="heatmap-stats">
+                <div class="heatmap-stat">
+                    <span>Mapped Recordings</span>
+                    <strong id="heatmap-mapped-recordings">0</strong>
+                </div>
+                <div class="heatmap-stat">
+                    <span>Detected Recordings</span>
+                    <strong id="heatmap-detected-recordings">0</strong>
+                </div>
+                <div class="heatmap-stat">
+                    <span>Detection Segments</span>
+                    <strong id="heatmap-detection-segments">0</strong>
+                </div>
+                <div class="heatmap-stat">
+                    <span>Unmapped Recordings</span>
+                    <strong id="heatmap-unmapped-recordings">0</strong>
+                </div>
+            </div>
+
+            <div class="heatmap-toolbar">
+                <label for="heatmap-crop-filter">Crop</label>
+                <select id="heatmap-crop-filter">
+                    <option value="all">All Crops</option>
+                    <option value="rice">Rice</option>
+                    <option value="maize">Maize</option>
+                    <option value="sugarcane">Sugarcane</option>
+                    <option value="groundnut">Groundnut</option>
+                    <option value="wheat">Wheat</option>
+                    <option value="cotton">Cotton</option>
+                    <option value="millet">Millet</option>
+                    <option value="vegetables">Vegetables</option>
+                    <option value="other">Other</option>
+                </select>
+                <button type="button" id="refresh-heatmap" class="primary-button">
+                    Refresh Map
+                </button>
+                <p id="heatmap-status" class="status-message" aria-live="polite">
+                    Open this page to load field activity.
+                </p>
+            </div>
+
+            <div id="field-activity-map" class="field-activity-map" aria-label="Map of recorded field activity"></div>
+
+        </section>
+
+
+<!-- ================================= -->
+<!-- IOT SENSOR MONITORING PAGE -->
+<!-- ================================= -->
+
+<section id="iot" class="page">
+
+    <div class="page-intro">
+        <h2>IoT Sensor Monitoring</h2>
+        <p>
+            Monitor sound activity collected by the Arduino
+            sound sensor alongside BirdNET bird identification.
+        </p>
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-icon">📡</div>
+            <div>
+                <p>Arduino Connection</p>
+                <h2 id="iot-backend-status">Checking...</h2>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🔊</div>
+            <div>
+                <p>Digital Sensor Reading</p>
+                <h2 id="iot-sound-level">--</h2>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div>
+                <p>Sound Activity</p>
+                <h2 id="iot-activity-status">Waiting</h2>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🔌</div>
+            <div>
+                <p>Last Reading</p>
+                <h2 id="iot-sensor-status">No data</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="content-card">
+        <div class="section-heading">
+            <h2>Live Digital Sound Activity</h2>
+            <p>Recent digital output readings from the Arduino sound sensor.</p>
+        </div>
+        <p class="risk-assessment-note">The digital sound sensor detects general sound activity only (DETECTED / QUIET); it does not measure calibrated sound intensity or identify bird species. BirdNET uses the selected laptop microphone, and bird identification is separate from crop-pest risk assessment.</p>
+        <div class="iot-device-details">
+            <span>Sensor / device <strong id="iot-device-name">Not reported</strong></span>
+            <span>COM port <strong id="iot-com-port">Not reported</strong></span>
+            <span>Physical buzzer <strong id="iot-buzzer-status">OFFLINE</strong></span>
+            <span>Last update <strong id="iot-last-update">—</strong></span>
+        </div>
+
+        <canvas id="iot-sound-chart"
+                height="110"
+                aria-label="Recent sound activity chart">
+        </canvas>
+
+        <p id="iot-last-reading" class="status-message">
+            Waiting for sensor readings...
+        </p>
+
+        <button id="iot-refresh-button" class="primary-button">
+            Refresh Sensor Data
+        </button>
+    </div>
+
+    <div class="content-card">
+        <h2>Recent Sensor Readings</h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Digital Raw Value</th>
+                        <th>Active Logic Level</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="iot-reading-history">
+                    <tr>
+                        <td colspan="4">No readings received yet.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+        <!-- ================================= -->
+        <!-- SETTINGS PAGE -->
+        <!-- ================================= -->
+
+        <section id="settings" class="page">
+
+            <div class="page-intro">
+                <h2>Application Settings</h2>
+                <p>
+                    Configure bird detection display preferences.
+                </p>
+            </div>
+
+            <div class="content-card alert-settings">
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">SOUND & NOTIFICATIONS</span>
+                        <h3>Smart alert settings</h3>
+                    </div>
+                </div>
+                <p class="risk-assessment-note">Bird pop-up notifications appear only when the selected siren is approved for laptop playback or an Arduino buzzer command is queued. Other detections remain in history. The species cooldown prevents repeated sirens and matching pop-ups.</p>
+                <label class="setting-toggle" for="pest-siren-enabled">
+                    <span><strong>Confirmed crop pest siren</strong><small>Play the red pest alert only with a verified crop-specific pest relationship.</small></span>
+                    <input id="pest-siren-enabled" type="checkbox" checked>
+                </label>
+                <div class="form-grid alert-controls-grid">
+                    <div class="form-group">
+                        <label for="alert-volume">Alert volume <span id="alert-volume-value">85%</span></label>
+                        <input id="alert-volume" type="range" min="0" max="100" value="85">
+                    </div>
+                    <div class="form-group">
+                        <label for="alert-cooldown">Species alert cooldown</label>
+                        <select id="alert-cooldown">
+                            <option value="0">No cooldown</option>
+                            <option value="15">15 seconds</option>
+                            <option value="30">30 seconds</option>
+                            <option value="60">1 minute</option>
+                            <option value="300">5 minutes</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="risk-assessment-note">Laptop siren loudness is limited by your computer's system volume and speakers. Set alert volume and system volume to a comfortable level; very loud audio can harm hearing.</p>
+                <div class="recording-controls alert-test-controls">
+                    <button id="test-bird-siren" class="secondary-button" type="button">Test bird siren</button>
+                    <button id="test-pest-siren" class="danger-button" type="button">Test pest siren</button>
+                </div>
+                <p id="alert-settings-status" class="status-message" role="status" aria-live="polite">Alert sounds require browser interaction before playback.</p>
+                <h4>Alert history</h4>
+                <div id="alert-history" class="overview-event-list">
+                    <p class="status-message">No alerts recorded in this browser.</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+
+                <h3>Bird Detection Settings</h3>
+
+                <div class="form-group">
+
+                    <label for="confidence-threshold">
+                        Minimum Bird Identification Confidence
+                    </label>
+
+                    <select id="confidence-threshold">
+
+                        <option value="10">10%</option>
+                        <option value="30">30%</option>
+                        <option value="50">50%</option>
+                        <option value="70">70%</option>
+                        <option value="80">80%</option>
+
+                    </select>
+
+                    <p>
+                        Predictions meeting this threshold are shown first.
+                        If none meet it, the strongest candidate is shown
+                        for review. A siren activates only for verified bird
+                        detections at 80% confidence or higher.
+                        It does not change BirdNET's backend
+                        inference threshold.
+                    </p>
+
+                    <p
+                        id="confidence-threshold-status"
+                        class="status-message">
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="content-card">
+
+                <h3>System Information</h3>
+
+                <p><strong>Application:</strong> Bird Guard AI</p>
+                <p><strong>Version:</strong> 1.0</p>
+                <p><strong>Bird Identification:</strong> BirdNET</p>
+                <p><strong>Backend:</strong> FastAPI</p>
+                <p><strong>Audio Processing:</strong> PyAV</p>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="main-footer">
+            <p>
+                Bird Guard AI © 2026 |
+                Acoustic Bird Identification and Crop Monitoring
+            </p>
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- JAVASCRIPT -->
+
+<div id="alert-notifications" class="alert-notifications" aria-live="assertive" aria-atomic="false"></div>
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
